@@ -1,5 +1,6 @@
-package be.xbd.chain
+package be.xbd.chain.domain
 
+import be.xbd.chain.toSha256
 import java.time.Instant
 
 class Block {

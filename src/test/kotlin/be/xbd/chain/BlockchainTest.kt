@@ -1,6 +1,7 @@
 package be.xbd.chain
 
-import org.junit.Before
+import be.xbd.chain.domain.Block
+import be.xbd.chain.domain.Blockchain
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach

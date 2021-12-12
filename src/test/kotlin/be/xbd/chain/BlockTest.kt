@@ -1,5 +1,6 @@
 package be.xbd.chain
 
+import be.xbd.chain.domain.Block
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

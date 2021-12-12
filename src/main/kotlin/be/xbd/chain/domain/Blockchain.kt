@@ -1,4 +1,4 @@
-package be.xbd.chain
+package be.xbd.chain.domain
 
 data class Blockchain(
     var chain: ArrayList<Block> = ArrayList()
