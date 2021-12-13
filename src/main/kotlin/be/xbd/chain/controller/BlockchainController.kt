@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.RestController
 class BlockchainController {
 
     @GetMapping("/all-data")
-    fun getAllBlock(): ArrayList<Block> {
-        return BLOCKCHAIN.chain
+    fun getAllBlock(): Set<Block> {
+        return BLOCKCHAIN.allBlock()
     }
 
     @GetMapping("/add-data")
     fun addData(@RequestParam data: String): Block {
-        BLOCKCHAIN.addBlock(data)
-        return BLOCKCHAIN.chain[BLOCKCHAIN.chain.size-1]
+        return BLOCKCHAIN.addBlock(data)
     }
 
     @GetMapping("/validate")

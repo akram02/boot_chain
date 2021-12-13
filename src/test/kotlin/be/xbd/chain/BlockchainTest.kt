@@ -1,5 +1,6 @@
 package be.xbd.chain
 
+import be.xbd.chain.ChainApplication.Companion.BLOCKCHAIN
 import be.xbd.chain.domain.Block
 import be.xbd.chain.domain.Blockchain
 import org.junit.jupiter.api.Assertions.*
@@ -21,22 +22,25 @@ class BlockchainTest {
     @BeforeEach
     fun clear() {
         blockchain = Blockchain().new()
+        BLOCKCHAIN = blockchain
     }
 
     private fun initializeBlockchain() {
         blockchain = Blockchain().new()
+        BLOCKCHAIN = blockchain
     }
 
     @Test
     fun `should start with the genesis block`() {
-        val genesis = blockchain.chain[0]
+        val genesis = blockchain.block
 
         val block = Block(
             data = "genesis data",
             timestamp = Instant.ofEpochMilli(1_599_909_623_805_627),
             lastHash = "-",
-            hash = "89834407fba9135994bf09f5d15f73aed05efc9f4d0836337c7a53d54ee6e23f",
-            uuid = "6fc316a1-b89f-4feb-9044-0288246ad738"
+            hash = "b4825e09608df0ab92468f26b8cdaa1f68f5791b64221624489ee5a9fbb3a1ca",
+            uuid = "8b02fea6-aa9d-4e53-9ba1-2882a9c3579e",
+            previousUuid = ""
         )
 
         assertTrue(block == genesis)
@@ -45,9 +49,10 @@ class BlockchainTest {
     @Test
     fun `adds a new block`() {
         val data = "foo"
-        val newBlockchain = blockchain.addBlock(data)
-        val block = newBlockchain.chain[newBlockchain.chain.size - 1]
+        val block = blockchain.addBlock(data)
         assertEquals(block.data, data)
+        val allBlock = blockchain.allBlock()
+        assertTrue(allBlock.size==2)
     }
 
     @Test
@@ -58,32 +63,28 @@ class BlockchainTest {
 
     @Test
     fun `when we temper data in existing chain`() {
-        blockchain = blockchain
-            .addBlock("blockchain-data-block-1")
-            .addBlock("blockchain-data-block-2")
-            .addBlock("blockchain-data-block-3")
+        val firstBlock = blockchain.addBlock("blockchain-data-block-1")
+        val secondBlock = blockchain.addBlock("blockchain-data-block-2", firstBlock)
+        val thirdBlock = blockchain.addBlock("blockchain-data-block-3", secondBlock)
         assertTrue(blockchain.validChain())
 
-        val index = 2
-        val temperedBlock = blockchain.chain[index]
-        temperedBlock.data = "tempered_data"
-        blockchain.chain[index]=temperedBlock
+        secondBlock.data = "tempered_data"
+
+        blockchain.addToBlockchain(blockchain, secondBlock)
 
         assertFalse(blockchain.validChain())
     }
 
     @Test
     fun `when we temper hash in existing chain`() {
-        blockchain = blockchain
-            .addBlock("blockchain-data-block-1")
-            .addBlock("blockchain-data-block-2")
-            .addBlock("blockchain-data-block-3")
+        val firstBlock = blockchain.addBlock("blockchain-data-block-1")
+        val secondBlock = blockchain.addBlock("blockchain-data-block-2", firstBlock)
+        val thirdBlock = blockchain.addBlock("blockchain-data-block-3", secondBlock)
         assertTrue(blockchain.validChain())
 
-        val index = 2
-        val temperedBlock = blockchain.chain[index]
-        temperedBlock.hash = "tempered_hash"
-        blockchain.chain[index]=temperedBlock
+        secondBlock.hash = "tempered_hash"
+
+        blockchain.addToBlockchain(blockchain, secondBlock)
 
         assertFalse(blockchain.validChain())
     }
