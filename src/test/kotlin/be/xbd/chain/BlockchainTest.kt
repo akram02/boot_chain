@@ -35,7 +35,8 @@ class BlockchainTest {
             data = "genesis data",
             timestamp = Instant.ofEpochMilli(1_599_909_623_805_627),
             lastHash = "-",
-            hash = "15cf4c2d49119d3250acf6024a63e7601e9686caf8bdc568d1940afc228e9a0e"
+            hash = "89834407fba9135994bf09f5d15f73aed05efc9f4d0836337c7a53d54ee6e23f",
+            uuid = "6fc316a1-b89f-4feb-9044-0288246ad738"
         )
 
         assertTrue(block == genesis)

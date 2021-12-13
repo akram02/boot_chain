@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import java.time.Instant
+import java.util.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BlockTest {
@@ -15,7 +16,8 @@ class BlockTest {
             data = "genesis data",
             timestamp = Instant.ofEpochMilli(1_599_909_623_805_627),
             lastHash = "-",
-            hash = "15cf4c2d49119d3250acf6024a63e7601e9686caf8bdc568d1940afc228e9a0e"
+            hash = "89834407fba9135994bf09f5d15f73aed05efc9f4d0836337c7a53d54ee6e23f",
+            uuid = "6fc316a1-b89f-4feb-9044-0288246ad738"
         )
 
         val genesis = Block().genesis()
@@ -41,12 +43,14 @@ class BlockTest {
         val timestamp = Instant.now();
         val lastHash = "random_hash"
         val data = "this is new block data"
+        val uuid = UUID.randomUUID().toString()
         val block = Block()
         block.timestamp = timestamp
         block.lastHash = lastHash
         block.data = data
+        block.uuid = uuid
         block.hash = Block().blockHash(block)
 
-        assertTrue(block == Block().new(timestamp, lastHash, data))
+        assertTrue(block == Block().new(timestamp, lastHash, data, uuid))
     }
 }

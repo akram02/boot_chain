@@ -4,6 +4,8 @@ import org.junit.jupiter.api.*
 
 import org.junit.jupiter.api.Assertions.*
 import org.springframework.web.client.RestTemplate
+import java.util.*
+import kotlin.collections.ArrayList
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
@@ -32,6 +34,8 @@ internal class ServerControllerTest {
     @Test
     @Order(0)
     fun cleanServer() {
+        val uuid = UUID.randomUUID().toString()
+        println(uuid)
         availableServer.forEach {
             restTemplate.getForObject("http://$it/clean-server", Boolean::class.java)
         }
