@@ -16,8 +16,9 @@ class BlockTest {
             data = "genesis data",
             timestamp = Instant.ofEpochMilli(1_599_909_623_805_627),
             lastHash = "-",
-            hash = "89834407fba9135994bf09f5d15f73aed05efc9f4d0836337c7a53d54ee6e23f",
-            uuid = "6fc316a1-b89f-4feb-9044-0288246ad738"
+            hash = "b4825e09608df0ab92468f26b8cdaa1f68f5791b64221624489ee5a9fbb3a1ca",
+            uuid = "8b02fea6-aa9d-4e53-9ba1-2882a9c3579e",
+            previousUuid = ""
         )
 
         val genesis = Block().genesis()
@@ -40,17 +41,19 @@ class BlockTest {
 
     @Test
     fun `new give a new block when we pass the parameters`() {
-        val timestamp = Instant.now();
+        val timestamp = Instant.now()
         val lastHash = "random_hash"
         val data = "this is new block data"
         val uuid = UUID.randomUUID().toString()
+        val previousUuid = UUID.randomUUID().toString()
         val block = Block()
         block.timestamp = timestamp
         block.lastHash = lastHash
         block.data = data
         block.uuid = uuid
+        block.previousUuid = previousUuid
         block.hash = Block().blockHash(block)
 
-        assertTrue(block == Block().new(timestamp, lastHash, data, uuid))
+        assertTrue(block == Block().new(timestamp, lastHash, data, uuid, previousUuid))
     }
 }
