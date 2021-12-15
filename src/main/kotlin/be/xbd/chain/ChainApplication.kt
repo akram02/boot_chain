@@ -26,6 +26,10 @@ class ChainApplication(environment: Environment) {
 			SERVER_SET.clear()
 			SERVER_SET.add("localhost:$port")
 		}
+
+		fun cleanData() {
+			BLOCKCHAIN = Blockchain().new()
+		}
 	}
 }
 
