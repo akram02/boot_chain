@@ -26,7 +26,7 @@ fun addBlock(blockchain: Blockchain, data: Any, lastBlock: Block? = null): Block
     if (previousBlock==null) {
         previousBlock = blockchain.block
     }
-    val currentBlock = Block().mineBlock(previousBlock!!, data)
+    val currentBlock = mineBlock(previousBlock!!, data)
     addToBlockchain(blockchain, currentBlock)
     return currentBlock
 }
@@ -140,7 +140,7 @@ private fun validChain(rootBlockchain: Blockchain, blockchain: Blockchain, start
 }
 
 private fun validBlockHash(block: Block): Boolean {
-    return block.hash == Block().blockHash(block)
+    return block.hash == blockHash(block)
 }
 
 private fun validLastHash(previousBlock: Block, currentBlock: Block): Boolean {

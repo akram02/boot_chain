@@ -1,6 +1,7 @@
 package be.xbd.chain.domain
 
 import be.xbd.chain.service.addToBlockchain
+import be.xbd.chain.service.genesis
 
 class Blockchain{
     var block: Block? = null
@@ -11,7 +12,7 @@ class Blockchain{
     }
 
     private fun addGenesis(): Blockchain {
-        block = Block().genesis()
+        block = genesis()
         addToBlockchain(this, block!!)
         return this
     }

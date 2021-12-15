@@ -1,8 +1,6 @@
 package be.xbd.chain.domain
 
-import be.xbd.chain.toSha256
 import java.time.Instant
-import java.util.*
 
 class Block {
     lateinit var  timestamp: Instant
@@ -21,28 +19,6 @@ class Block {
         this.data = data
         this.uuid = uuid
         this.previousUuid = previousUuid
-    }
-
-
-    fun mineBlock(lastBlock: Block, data: Any): Block {
-        return new(Instant.now(), lastBlock.hash, data, UUID.randomUUID().toString(), lastBlock.uuid)
-    }
-
-    fun blockHash(block: Block) = "${block.timestamp.toEpochMilli()}:${block.lastHash}:${block.uuid}:${block.data}".toSha256()
-
-    fun genesis(): Block {
-        val now = Instant.ofEpochMilli(1_599_909_623_805_627)
-        return new(now, "-", "genesis data", "8b02fea6-aa9d-4e53-9ba1-2882a9c3579e", "")
-    }
-
-    fun new(timestamp: Instant, lastHash: String, data: Any, uuid: String, previousUuid: String): Block {
-        this.timestamp = timestamp
-        this.lastHash = lastHash
-        this.data = data
-        this.uuid = uuid
-        this.previousUuid = previousUuid
-        hash = blockHash(this)
-        return this
     }
 
     override fun equals(other: Any?): Boolean {
