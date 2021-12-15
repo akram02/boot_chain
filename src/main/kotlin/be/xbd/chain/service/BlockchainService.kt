@@ -2,6 +2,7 @@ package be.xbd.chain.service
 
 import be.xbd.chain.domain.Block
 import be.xbd.chain.domain.Blockchain
+import org.springframework.web.client.RestTemplate
 
 fun allBlock(blockchain: Blockchain): HashSet<Block> {
     val blockSet = HashSet<Block>()
@@ -28,6 +29,36 @@ fun addBlock(blockchain: Blockchain, data: Any, lastBlock: Block? = null): Block
     val currentBlock = Block().mineBlock(previousBlock!!, data)
     addToBlockchain(blockchain, currentBlock)
     return currentBlock
+}
+
+
+fun addRemoteBlockchain(remote: Blockchain, local: Blockchain): Boolean {
+    if (!validChain(remote)) return false
+    if (!validChain(local)) return false
+    if (!isSameNonNullValue(remote, local)) return false
+    addBlockchain(from = remote, to = local)
+    return true
+}
+
+
+fun mergeBlockchain(
+    localServerSet: HashSet<String>,
+    localBlockchain: Blockchain
+): Boolean {
+    val restTemplate = RestTemplate()
+    for (server in localServerSet) {
+        val remoteBlockchain = restTemplate.getForObject("http://$server/blockchain", Blockchain::class.java)
+        if (remoteBlockchain == null) continue
+        if (!validChain(remoteBlockchain)) continue
+        if (!isSameNonNullValue(remoteBlockchain, localBlockchain)) continue
+        addBlockchain(from = remoteBlockchain, to = localBlockchain)
+    }
+
+    localServerSet.forEach { server ->
+        restTemplate.postForObject("http://$server/add-blockchain", localBlockchain, Boolean::class.java)
+    }
+
+    return true
 }
 
 fun addToBlockchain(blockchain: Blockchain, block: Block) {

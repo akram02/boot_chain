@@ -2,6 +2,7 @@ package be.xbd.chain.controller
 
 import be.xbd.chain.ChainApplication.Companion.SERVER_SET
 import be.xbd.chain.ChainApplication.Companion.cleanServerSet
+import be.xbd.chain.service.collectAndMergeServer
 import org.springframework.core.env.Environment
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -35,23 +36,6 @@ class ServerController(val environment: Environment) {
 
     @GetMapping("/merge-server")
     fun mergeServer(): Set<String> {
-        collectAndMerge(HashSet(SERVER_SET))
-        return SERVER_SET
+        return collectAndMergeServer(remoteServerSet = HashSet(SERVER_SET), localServerSet = SERVER_SET)
     }
-
-    private fun collectAndMerge(remoteServerSet: HashSet<String>) {
-        val restTemplate = RestTemplate()
-
-        for (server in SERVER_SET) {
-            val remoteServer: ResponseEntity<Collection<*>> = restTemplate.postForEntity("http://$server/add-all-server", remoteServerSet, Collection::class.java)
-            if (remoteServer.body != null) {
-                remoteServerSet.addAll(remoteServer.body as Collection<String>)
-            }
-        }
-        if (remoteServerSet != SERVER_SET) {
-            SERVER_SET.addAll(remoteServerSet)
-            collectAndMerge(HashSet(SERVER_SET))
-        }
-    }
-
 }
