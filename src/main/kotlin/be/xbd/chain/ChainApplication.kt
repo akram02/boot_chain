@@ -1,19 +1,17 @@
 package be.xbd.chain
 
 import be.xbd.chain.domain.Blockchain
+import be.xbd.chain.service.newBlockchainWithGenesisBlock
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.core.env.Environment
-import java.net.InetAddress
-
-
 
 
 @SpringBootApplication
 class ChainApplication(environment: Environment) {
 
 	init {
-	    BLOCKCHAIN = Blockchain().new()
+	    BLOCKCHAIN = newBlockchainWithGenesisBlock()
 		cleanServerSet(environment)
 	}
 
@@ -28,7 +26,7 @@ class ChainApplication(environment: Environment) {
 		}
 
 		fun cleanData() {
-			BLOCKCHAIN = Blockchain().new()
+			BLOCKCHAIN = newBlockchainWithGenesisBlock()
 		}
 	}
 }

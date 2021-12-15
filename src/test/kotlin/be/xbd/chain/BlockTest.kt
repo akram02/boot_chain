@@ -2,8 +2,8 @@ package be.xbd.chain
 
 import be.xbd.chain.domain.Block
 import be.xbd.chain.service.blockHash
-import be.xbd.chain.service.genesis
-import be.xbd.chain.service.mineBlock
+import be.xbd.chain.service.genesisBlock
+import be.xbd.chain.service.mineBlockFromLastBlockAndData
 import be.xbd.chain.service.newBlock
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -25,20 +25,20 @@ class BlockTest {
             previousUuid = ""
         )
 
-        val genesis = genesis()
+        val genesis = genesisBlock()
 
         assertTrue(block==genesis)
     }
 
     @Test
     fun `mine block return new block`() {
-        val genesis = genesis()
+        val genesis = genesisBlock()
 
         val newBlock = Block()
         newBlock.data = "this is mined data"
         newBlock.lastHash = genesis.hash
 
-        val mineBlock = mineBlock(genesis, "this is mined data")
+        val mineBlock = mineBlockFromLastBlockAndData(genesis, "this is mined data")
 
         assertTrue(newBlock.data == mineBlock.data && newBlock.lastHash == mineBlock.lastHash)
     }

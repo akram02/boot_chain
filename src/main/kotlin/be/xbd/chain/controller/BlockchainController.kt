@@ -2,11 +2,8 @@ package be.xbd.chain.controller
 
 import be.xbd.chain.ChainApplication
 import be.xbd.chain.ChainApplication.Companion.BLOCKCHAIN
-import be.xbd.chain.domain.Block
 import be.xbd.chain.domain.Blockchain
-import be.xbd.chain.service.addBlock
 import be.xbd.chain.service.addRemoteBlockchain
-import be.xbd.chain.service.allBlock
 import be.xbd.chain.service.validChain
 import org.springframework.web.bind.annotation.*
 
