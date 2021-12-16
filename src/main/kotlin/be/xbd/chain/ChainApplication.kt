@@ -2,6 +2,7 @@ package be.xbd.chain
 
 import be.xbd.chain.domain.Blockchain
 import be.xbd.chain.service.newBlockchainWithGenesisBlock
+import be.xbd.chain.config.host
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.core.env.Environment
@@ -22,7 +23,7 @@ class ChainApplication(environment: Environment) {
 		fun cleanServerSet(environment: Environment) {
 			val port = environment.getProperty("server.port")
 			SERVER_SET.clear()
-			SERVER_SET.add("localhost:$port")
+			SERVER_SET.add("$host:$port")
 		}
 
 		fun cleanData() {

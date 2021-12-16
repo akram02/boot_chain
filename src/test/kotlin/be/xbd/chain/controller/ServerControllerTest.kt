@@ -25,7 +25,9 @@ internal class ServerControllerTest {
         val uuid = UUID.randomUUID().toString()
         println(uuid)
         availableServer.forEach {
-            restTemplate.getForObject("http://$it/clean-server", Boolean::class.java)
+            val result = restTemplate.getForObject("http://$it/clean-server", Boolean::class.java)
+            assertNotNull(result)
+            assertTrue(result!!)
         }
     }
 
@@ -61,7 +63,7 @@ internal class ServerControllerTest {
     @Order(4)
     fun mergeServer0() {
         restTemplate.getForObject("http://localhost:8080/merge-server", Set::class.java)
-        assertAllServerWithSize(10)
+        assertAllServerWithSize(availableServer.size)
     }
 
 

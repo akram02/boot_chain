@@ -1,14 +1,16 @@
 package be.xbd.chain
 
+val host = "192.168.1.21"
 val availableServer = arrayListOf(
-    "localhost:8080",
-    "localhost:8081",
-    "localhost:8082",
-    "localhost:8083",
-    "localhost:8084",
-    "localhost:8085",
-    "localhost:8086",
-    "localhost:8087",
-    "localhost:8088",
-    "localhost:8089",
+    "$host:8080",
+    "$host:8081",
+    "$host:8082",
+    "$host:8083",
+    "$host:8084",
+    "$host:8085",
+    "$host:8086",
+    "$host:8087",
+    "$host:8088",
+    "$host:8089",
+    "192.168.1.163:8080"
 )
