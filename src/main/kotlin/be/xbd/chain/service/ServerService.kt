@@ -20,18 +20,20 @@ fun cleanServerSet(serverSet: HashSet<String>, port: String) {
     println(serverSet)
 }
 
-fun collectAndMergeServer(remoteServerSet: HashSet<String>, localServerSet: HashSet<String>): HashSet<String> {
+fun collectAndMergeServer(localServerSet: HashSet<String>): HashSet<String> {
     val restTemplate = RestTemplate()
 
-    for (server in localServerSet) {
-        val remoteServer: ResponseEntity<Collection<*>> = restTemplate.postForEntity("http://$server/add-all-server", remoteServerSet, Collection::class.java)
+    // prevent ConcurrentModificationException
+    val localCopy = HashSet(localServerSet)
+    for (server in localCopy) {
+        val remoteServer: ResponseEntity<Collection<*>> = restTemplate.postForEntity("http://$server/add-all-server", localServerSet, Collection::class.java)
         if (remoteServer.body != null) {
-            remoteServerSet.addAll(remoteServer.body as Collection<String>)
+            localServerSet.addAll(remoteServer.body as Collection<String>)
         }
     }
-    if (remoteServerSet != localServerSet) {
-        localServerSet.addAll(remoteServerSet)
-        collectAndMergeServer(HashSet(localServerSet), localServerSet)
+    if (localCopy != localServerSet) {
+        localServerSet.addAll(localCopy) // if someone cleared by clean endpoint
+        collectAndMergeServer(localServerSet)
     }
 
     return localServerSet

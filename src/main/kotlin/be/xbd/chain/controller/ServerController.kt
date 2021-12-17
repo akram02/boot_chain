@@ -4,9 +4,7 @@ import be.xbd.chain.ChainApplication.Companion.SERVER_SET
 import be.xbd.chain.ChainApplication.Companion.cleanServerSet
 import be.xbd.chain.service.collectAndMergeServer
 import org.springframework.core.env.Environment
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.client.RestTemplate
 
 @RestController
 class ServerController(val environment: Environment) {
@@ -36,6 +34,6 @@ class ServerController(val environment: Environment) {
 
     @GetMapping("/merge-server")
     fun mergeServer(): Set<String> {
-        return collectAndMergeServer(remoteServerSet = HashSet(SERVER_SET), localServerSet = SERVER_SET)
+        return collectAndMergeServer(SERVER_SET)
     }
 }
