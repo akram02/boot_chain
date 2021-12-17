@@ -39,7 +39,7 @@ class BlockchainTest {
             data = "genesis data",
             timestamp = Instant.ofEpochMilli(1_599_909_623_805_627),
             lastHash = "-",
-            hash = "b4825e09608df0ab92468f26b8cdaa1f68f5791b64221624489ee5a9fbb3a1ca",
+            hash = "e863d50b9727417be301dc8c3f615e3e6a31a7bb7f3eaafc4bb2f948b92841bc",
             uuid = "8b02fea6-aa9d-4e53-9ba1-2882a9c3579e",
             previousUuid = ""
         )
