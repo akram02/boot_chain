@@ -2,7 +2,6 @@ package be.xbd.chain
 
 import be.xbd.chain.domain.Blockchain
 import be.xbd.chain.service.newBlockchainWithGenesisBlock
-import be.xbd.chain.config.host
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.core.env.Environment
@@ -18,12 +17,12 @@ class ChainApplication(environment: Environment) {
 
 	companion object {
 		lateinit var BLOCKCHAIN: Blockchain
+		lateinit var PORT: String
 		var SERVER_SET: HashSet<String> = HashSet()
 
 		fun cleanServerSet(environment: Environment) {
-			val port = environment.getProperty("server.port")
-			SERVER_SET.clear()
-			SERVER_SET.add("$host:$port")
+			PORT = environment.getProperty("server.port")!!
+			be.xbd.chain.service.cleanServerSet(SERVER_SET, PORT)
 		}
 
 		fun cleanData() {
