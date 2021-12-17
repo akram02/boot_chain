@@ -70,7 +70,7 @@ internal class ServerControllerTest {
     private fun assertAllServerWithSize(size: Int) {
         availableServer.forEach {
             val set: Set<*>? = restTemplate.getForObject("http://$it/all-server", Set::class.java)
-            assertTrue(set != null && set.size == size)
+            assertTrue(set != null && set.size >= size)
         }
     }
 
