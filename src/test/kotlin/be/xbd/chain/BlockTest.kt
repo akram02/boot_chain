@@ -51,7 +51,7 @@ class BlockTest {
         val uuid = UUID.randomUUID().toString()
         val previousUuid = UUID.randomUUID().toString()
         val block = Block()
-        block.timestamp = timestamp
+        block.timestamp = timestamp.toEpochMilli().toString()
         block.lastHash = lastHash
         block.data = data
         block.uuid = uuid
